@@ -38,3 +38,8 @@ sysinfo.txt
 .vscode/
 *.slnx
 
+# 추가 (영상 제외)
+Assets/06.Videos/*.mp4
+Assets/06.Videos/*.mp4.meta
+Assets/06.Videos/*.mov
+Assets/06.Videos/*.360
