@@ -1,11 +1,53 @@
 using System.Collections;
 using UnityEngine;
 using UniVRM10;
+using System;   // #HW4 //#4 
+
 
 // #HW4 //#4 
 
 public class DatingSceneControllerHW4 : MonoBehaviour
 {
+    // #HW4 //#4  -----------------------------------
+    [Serializable]
+    public class GirlActionData
+    {
+        public string voice;
+        public string action;
+        public string situation;
+
+        public GirlActionData(string voice, string action, string situation)
+        {
+            this.voice = voice;
+            this.action = action;
+            this.situation = situation;
+        }
+    }
+
+    [Serializable]
+    /*
+        voice      = Boy가 말할 문장
+        action     = Boy가 수행할 몸 동작
+        expression = Boy의 표정
+        emotion    = Boy의 감정 상태
+    */
+    public class BoyResponseData
+    {
+        public string voice;
+        public string action;
+        public string expression;
+        public string emotion;
+
+        public BoyResponseData(string voice, string action, string expression, string emotion)
+        {
+            this.voice = voice;
+            this.action = action;
+            this.expression = expression;
+            this.emotion = emotion;
+        }
+    }
+    // -----------------------------------
+
     [Header("Animators")]
     public Animator girlAnimator;
     public Animator boyAnimator;
@@ -61,6 +103,14 @@ public class DatingSceneControllerHW4 : MonoBehaviour
     {
         ClearAllExpressions();
 
+        GirlActionData girlData = new GirlActionData(   // #HW4 //#4
+            "Nice to meet you.",
+            "Bow",
+            "FirstMeeting"
+        );
+        DebugGirlActionData(girlData);
+
+
         girlAnimator.SetTrigger(bowTrigger);
         SetHappy(girlVrm, 0.5f);
         PlayGirl(niceToMeetYouGirl);
@@ -72,9 +122,16 @@ public class DatingSceneControllerHW4 : MonoBehaviour
         // boyAnimator.SetTrigger(bowTrigger);
         // SetHappy(boyVrm, 0.5f);
         // PlayBoy(niceToMeetYouBoy);
-        // #HW4 //#4 위 3줄을 아래 1줄로 변경
-        ApplyBoyResponse("Bow", "Happy", niceToMeetYouBoy);
-
+        // #HW4 //#4 위 3줄을 아래 1줄로 변경-> 크게 2개 코드로 변경
+        BoyResponseData boyResponse = new BoyResponseData(
+            "Nice to meet you too.",
+            "Bow",
+            "Happy",
+            "Positive"
+        );
+        ApplyBoyResponse(boyResponse, niceToMeetYouBoy);
+        
+        
         yield return new WaitForSeconds(1.4f);
 
         ClearExpression(boyVrm);
@@ -83,6 +140,14 @@ public class DatingSceneControllerHW4 : MonoBehaviour
     IEnumerator HelloSequence()
     {
         ClearAllExpressions();
+
+        GirlActionData girlData = new GirlActionData(   // #HW4 //#4
+            "Hello.",
+            "WaveHand",
+            "Greeting"
+        );
+        DebugGirlActionData(girlData);
+
 
         girlAnimator.SetTrigger(talkTrigger);
         girlAnimator.SetTrigger(waveTrigger);
@@ -99,8 +164,16 @@ public class DatingSceneControllerHW4 : MonoBehaviour
         // SetHappy(boyVrm, 0.6f);
         // SetMouthA(boyVrm, 0.8f);
         // PlayBoy(helloBoy);
-        // #HW4 //#4 위 5줄을 아래 1줄로 변경
-        ApplyBoyResponse("WaveHand", "HappyTalk", helloBoy);
+        // #HW4 //#4 위 5줄을 아래 1줄로 변경-> 크게 2개 코드로 변경
+        // ApplyBoyResponse("WaveHand", "HappyTalk", helloBoy);
+        BoyResponseData boyResponse = new BoyResponseData(
+            "Hello.",
+            "WaveHand",
+            "HappyTalk",
+            "Positive"
+        );
+        ApplyBoyResponse(boyResponse, helloBoy);
+
 
         yield return new WaitForSeconds(1.2f);
 
@@ -110,6 +183,14 @@ public class DatingSceneControllerHW4 : MonoBehaviour
     IEnumerator GoodByeSequence()
     {
         ClearAllExpressions();
+
+        GirlActionData girlData = new GirlActionData(   // #HW4 //#4
+            "Goodbye.",
+            "WaveHand",
+            "Farewell"
+        );
+        DebugGirlActionData(girlData);
+
 
         girlAnimator.SetTrigger(talkTrigger);
         girlAnimator.SetTrigger(waveTrigger);
@@ -126,8 +207,17 @@ public class DatingSceneControllerHW4 : MonoBehaviour
         // SetHappy(boyVrm, 0.4f);
         // SetMouthA(boyVrm, 0.8f);
         // PlayBoy(byeByeBoy);
-        // #HW4 //#4 위 5줄을 아래 1줄로 변경
-        ApplyBoyResponse("WaveHand", "HappyTalk", byeByeBoy);
+        // #HW4 //#4 위 5줄을 아래 1줄로 변경 -> 크게 2개 코드로 변경
+        // ApplyBoyResponse("WaveHand", "HappyTalk", byeByeBoy);
+        BoyResponseData boyResponse = new BoyResponseData(
+            "Goodbye.",
+            "WaveHand",
+            "HappyTalk",
+            "Neutral"
+        );
+        ApplyBoyResponse(boyResponse, byeByeBoy);
+
+
 
         yield return new WaitForSeconds(1.2f);
 
@@ -137,6 +227,14 @@ public class DatingSceneControllerHW4 : MonoBehaviour
     IEnumerator GoodJokeSequence()
     {
         ClearAllExpressions();
+
+        GirlActionData girlData = new GirlActionData(   // #HW4 //#4
+            "I told a funny joke.",
+            "Talk",
+            "GoodJoke"
+        );
+        DebugGirlActionData(girlData);
+
 
         girlAnimator.SetTrigger(talkTrigger);
         SetHappy(girlVrm, 0.5f);
@@ -150,8 +248,15 @@ public class DatingSceneControllerHW4 : MonoBehaviour
         // boyAnimator.SetTrigger(laughTrigger);
         // SetHappy(boyVrm, 1.0f);
         // PlayBoy(laughBoy);
-        // #HW4 //#4 위 3줄을 아래 1줄로 변경
-        ApplyBoyResponse("Laugh", "Happy", laughBoy);
+        // #HW4 //#4 위 3줄을 아래 1줄로 변경-> 크게 2개 코드로 변경
+        // ApplyBoyResponse("Laugh", "Happy", laughBoy);
+        BoyResponseData boyResponse = new BoyResponseData(
+            "That was funny!",
+            "Laugh",
+            "Happy",
+            "Positive"
+        );
+        ApplyBoyResponse(boyResponse, laughBoy);
 
 
         yield return new WaitForSeconds(1.8f);
@@ -162,6 +267,14 @@ public class DatingSceneControllerHW4 : MonoBehaviour
     IEnumerator BadJokeSequence()
     {
         ClearAllExpressions();
+
+        GirlActionData girlData = new GirlActionData(   // #HW4 //#4
+            "I told an awkward joke.",
+            "Talk",
+            "BadJoke"
+        );
+        DebugGirlActionData(girlData);
+
 
         girlAnimator.SetTrigger(talkTrigger);
         SetHappy(girlVrm, 0.3f);
@@ -176,7 +289,15 @@ public class DatingSceneControllerHW4 : MonoBehaviour
         // SetAngry(boyVrm, 0.9f);
         // PlayBoy(ohNoBoy);
         // #HW4 //#4 위 5줄을 아래 1줄로 변경   
-        ApplyBoyResponse("Frown", "Angry", ohNoBoy);
+        // ApplyBoyResponse("Frown", "Angry", ohNoBoy);-> 크게 2개 코드로 변경
+        BoyResponseData boyResponse = new BoyResponseData(
+            "That was awkward.",
+            "Frown",
+            "Angry",
+            "Negative"
+        );
+        ApplyBoyResponse(boyResponse, ohNoBoy);
+
 
         yield return new WaitForSeconds(1.8f);
 
@@ -184,8 +305,13 @@ public class DatingSceneControllerHW4 : MonoBehaviour
     }
 
     // #HW4 //#4 나중에 AI서버가 쉽게 동작을 수행하도록 할 수 있도록 함수 추가
-    void ApplyBoyResponse(string action, string expression, AudioClip voiceClip)
+    void ApplyBoyResponse(BoyResponseData response, AudioClip voiceClip)
     {
+        DebugBoyResponseData(response);
+
+        string action = response.action;
+        string expression = response.expression;
+
         // 1. Boy animation
         if (boyAnimator != null)
         {
@@ -241,6 +367,28 @@ public class DatingSceneControllerHW4 : MonoBehaviour
 
         // 3. Boy voice
         PlayBoy(voiceClip);
+    }
+
+    
+    void DebugGirlActionData(GirlActionData data)   // #HW4 //#4 나중에 AI서버가 쉽게 동작을 수행하도록 할 수 있도록 함수 추가
+    {
+        Debug.Log(
+            "[GirlActionData] " +
+            "voice=" + data.voice +
+            ", action=" + data.action +
+            ", situation=" + data.situation
+        );
+    }
+
+    void DebugBoyResponseData(BoyResponseData data) // #HW4 //#4 나중에 AI서버가 쉽게 동작을 수행하도록 할 수 있도록 함수 추가
+    {
+        Debug.Log(
+            "[BoyResponseData] " +
+            "voice=" + data.voice +
+            ", action=" + data.action +
+            ", expression=" + data.expression +
+            ", emotion=" + data.emotion
+        );
     }
 
     void PlayGirl(AudioClip clip)
