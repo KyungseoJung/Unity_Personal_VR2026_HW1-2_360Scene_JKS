@@ -122,15 +122,21 @@ public class DatingSceneControllerHW4 : MonoBehaviour
         // boyAnimator.SetTrigger(bowTrigger);
         // SetHappy(boyVrm, 0.5f);
         // PlayBoy(niceToMeetYouBoy);
+
         // #HW4 //#4 위 3줄을 아래 1줄로 변경-> 크게 2개 코드로 변경
-        BoyResponseData boyResponse = new BoyResponseData(
-            "Nice to meet you too.",
-            "Bow",
-            "Happy",
-            "Positive"
-        );
+        // ApplyBoyResponse("Bow", "Happy", niceToMeetYouBoy);
+
+        // BoyResponseData boyResponse = new BoyResponseData(
+        //     "Nice to meet you too.",
+        //     "Bow",
+        //     "Happy",
+        //     "Positive"
+        // );
+        // ApplyBoyResponse(boyResponse, niceToMeetYouBoy);
+
+        // 아래 2줄로 변경
+        BoyResponseData boyResponse = GenerateTemporaryAIResponse(girlData);
         ApplyBoyResponse(boyResponse, niceToMeetYouBoy);
-        
         
         yield return new WaitForSeconds(1.4f);
 
@@ -166,13 +172,18 @@ public class DatingSceneControllerHW4 : MonoBehaviour
         // PlayBoy(helloBoy);
         // #HW4 //#4 위 5줄을 아래 1줄로 변경-> 크게 2개 코드로 변경
         // ApplyBoyResponse("WaveHand", "HappyTalk", helloBoy);
-        BoyResponseData boyResponse = new BoyResponseData(
-            "Hello.",
-            "WaveHand",
-            "HappyTalk",
-            "Positive"
-        );
+        // BoyResponseData boyResponse = new BoyResponseData(
+        //     "Hello.",
+        //     "WaveHand",
+        //     "HappyTalk",
+        //     "Positive"
+        // );
+        // ApplyBoyResponse(boyResponse, helloBoy);
+
+        // 아래 2줄로 변경
+        BoyResponseData boyResponse = GenerateTemporaryAIResponse(girlData);
         ApplyBoyResponse(boyResponse, helloBoy);
+
 
 
         yield return new WaitForSeconds(1.2f);
@@ -209,14 +220,17 @@ public class DatingSceneControllerHW4 : MonoBehaviour
         // PlayBoy(byeByeBoy);
         // #HW4 //#4 위 5줄을 아래 1줄로 변경 -> 크게 2개 코드로 변경
         // ApplyBoyResponse("WaveHand", "HappyTalk", byeByeBoy);
-        BoyResponseData boyResponse = new BoyResponseData(
-            "Goodbye.",
-            "WaveHand",
-            "HappyTalk",
-            "Neutral"
-        );
-        ApplyBoyResponse(boyResponse, byeByeBoy);
+        // BoyResponseData boyResponse = new BoyResponseData(
+        //     "Goodbye.",
+        //     "WaveHand",
+        //     "HappyTalk",
+        //     "Neutral"
+        // );
+        // ApplyBoyResponse(boyResponse, byeByeBoy);
 
+        // 아래 2줄로 변경
+        BoyResponseData boyResponse = GenerateTemporaryAIResponse(girlData);
+        ApplyBoyResponse(boyResponse, byeByeBoy);
 
 
         yield return new WaitForSeconds(1.2f);
@@ -250,12 +264,15 @@ public class DatingSceneControllerHW4 : MonoBehaviour
         // PlayBoy(laughBoy);
         // #HW4 //#4 위 3줄을 아래 1줄로 변경-> 크게 2개 코드로 변경
         // ApplyBoyResponse("Laugh", "Happy", laughBoy);
-        BoyResponseData boyResponse = new BoyResponseData(
-            "That was funny!",
-            "Laugh",
-            "Happy",
-            "Positive"
-        );
+        // BoyResponseData boyResponse = new BoyResponseData(
+        //     "That was funny!",
+        //     "Laugh",
+        //     "Happy",
+        //     "Positive"
+        // );
+        // ApplyBoyResponse(boyResponse, laughBoy);
+        // 아래 2줄로 변경
+        BoyResponseData boyResponse = GenerateTemporaryAIResponse(girlData);
         ApplyBoyResponse(boyResponse, laughBoy);
 
 
@@ -290,12 +307,15 @@ public class DatingSceneControllerHW4 : MonoBehaviour
         // PlayBoy(ohNoBoy);
         // #HW4 //#4 위 5줄을 아래 1줄로 변경   
         // ApplyBoyResponse("Frown", "Angry", ohNoBoy);-> 크게 2개 코드로 변경
-        BoyResponseData boyResponse = new BoyResponseData(
-            "That was awkward.",
-            "Frown",
-            "Angry",
-            "Negative"
-        );
+        // BoyResponseData boyResponse = new BoyResponseData(
+        //     "That was awkward.",
+        //     "Frown",
+        //     "Angry",
+        //     "Negative"
+        // );
+        // ApplyBoyResponse(boyResponse, ohNoBoy);
+        // 아래 2줄로 변경
+        BoyResponseData boyResponse = GenerateTemporaryAIResponse(girlData);
         ApplyBoyResponse(boyResponse, ohNoBoy);
 
 
@@ -304,6 +324,62 @@ public class DatingSceneControllerHW4 : MonoBehaviour
         ClearExpression(boyVrm);
     }
 
+    // #HW4 //#4 AI 작동 코드 만들기 시작
+    BoyResponseData GenerateTemporaryAIResponse(GirlActionData girlData)
+    {
+        if (girlData.situation == "FirstMeeting")
+        {
+            return new BoyResponseData(
+                "Nice to meet you too.",
+                "Bow",
+                "Happy",
+                "Positive"
+            );
+        }
+        else if (girlData.situation == "Greeting")
+        {
+            return new BoyResponseData(
+                "Hello.",
+                "WaveHand",
+                "HappyTalk",
+                "Positive"
+            );
+        }
+        else if (girlData.situation == "Farewell")
+        {
+            return new BoyResponseData(
+                "Goodbye.",
+                "WaveHand",
+                "HappyTalk",
+                "Neutral"
+            );
+        }
+        else if (girlData.situation == "GoodJoke")
+        {
+            return new BoyResponseData(
+                "That was funny!",
+                "Laugh",
+                "Happy",
+                "Positive"
+            );
+        }
+        else if (girlData.situation == "BadJoke")
+        {
+            return new BoyResponseData(
+                "That was awkward.",
+                "Frown",
+                "Angry",
+                "Negative"
+            );
+        }
+
+        return new BoyResponseData(
+            "...",
+            "Idle",
+            "Neutral",
+            "Neutral"
+        );
+    }
     // #HW4 //#4 나중에 AI서버가 쉽게 동작을 수행하도록 할 수 있도록 함수 추가
     void ApplyBoyResponse(BoyResponseData response, AudioClip voiceClip)
     {
