@@ -1,8 +1,9 @@
-using System.Collections;
-using UnityEngine;
-using UniVRM10;
 using System;   // #HW4 //#4 
-
+using System.Collections;
+using System.Text;
+using UnityEngine;
+using UnityEngine.Networking;
+using UniVRM10;
 
 // #HW4 //#4 
 
@@ -48,6 +49,11 @@ public class DatingSceneControllerHW4 : MonoBehaviour
     }
     // -----------------------------------
 
+    // #HW4 //#4  -----------------------------------
+    [Header("AI Server")]   // #HW4 //#4-2 AI 서버 적용하기
+    public string aiServerUrl = "http://127.0.0.1:8000/ai"; // python 서버 주소
+    public bool usePythonAIServer = true;   // python 서버를 사용할지 ㅕ부
+    
     [Header("Animators")]
     public Animator girlAnimator;
     public Animator boyAnimator;
@@ -80,6 +86,7 @@ public class DatingSceneControllerHW4 : MonoBehaviour
     public string laughTrigger = "Laugh";
     public string angryTrigger = "Angry";
     public string waveTrigger = "WaveHand";
+    // -----------------------------------
 
     void Update()
     {
@@ -133,10 +140,19 @@ public class DatingSceneControllerHW4 : MonoBehaviour
         //     "Positive"
         // );
         // ApplyBoyResponse(boyResponse, niceToMeetYouBoy);
-
         // 아래 2줄로 변경
-        BoyResponseData boyResponse = GenerateTemporaryAIResponse(girlData);
-        ApplyBoyResponse(boyResponse, niceToMeetYouBoy);
+        // BoyResponseData boyResponse = GenerateTemporaryAIResponse(girlData);
+        // ApplyBoyResponse(boyResponse, niceToMeetYouBoy);
+        //#4-2 아래 if/else문으로 변경 (Python 임시 AI 서버와 연결하기 위함)
+        if (usePythonAIServer)
+        {
+            yield return StartCoroutine(RequestBoyResponseFromServer(girlData, niceToMeetYouBoy));
+        }
+        else
+        {
+            BoyResponseData boyResponse = GenerateTemporaryAIResponse(girlData);
+            ApplyBoyResponse(boyResponse, niceToMeetYouBoy);
+        }
         
         yield return new WaitForSeconds(1.4f);
 
@@ -179,11 +195,19 @@ public class DatingSceneControllerHW4 : MonoBehaviour
         //     "Positive"
         // );
         // ApplyBoyResponse(boyResponse, helloBoy);
-
         // 아래 2줄로 변경
-        BoyResponseData boyResponse = GenerateTemporaryAIResponse(girlData);
-        ApplyBoyResponse(boyResponse, helloBoy);
-
+        // BoyResponseData boyResponse = GenerateTemporaryAIResponse(girlData);
+        // ApplyBoyResponse(boyResponse, helloBoy);
+        //#4-2 아래 if/else문으로 변경 (Python 임시 AI 서버와 연결하기 위함)
+        if (usePythonAIServer)
+        {
+            yield return StartCoroutine(RequestBoyResponseFromServer(girlData, helloBoy));
+        }
+        else
+        {
+            BoyResponseData boyResponse = GenerateTemporaryAIResponse(girlData);
+            ApplyBoyResponse(boyResponse, helloBoy);
+        }
 
 
         yield return new WaitForSeconds(1.2f);
@@ -227,10 +251,19 @@ public class DatingSceneControllerHW4 : MonoBehaviour
         //     "Neutral"
         // );
         // ApplyBoyResponse(boyResponse, byeByeBoy);
-
         // 아래 2줄로 변경
-        BoyResponseData boyResponse = GenerateTemporaryAIResponse(girlData);
-        ApplyBoyResponse(boyResponse, byeByeBoy);
+        // BoyResponseData boyResponse = GenerateTemporaryAIResponse(girlData);
+        // ApplyBoyResponse(boyResponse, byeByeBoy);
+        //#4-2 아래 if/else문으로 변경 (Python 임시 AI 서버와 연결하기 위함)
+        if (usePythonAIServer)
+        {
+            yield return StartCoroutine(RequestBoyResponseFromServer(girlData, byeByeBoy));
+        }
+        else
+        {
+            BoyResponseData boyResponse = GenerateTemporaryAIResponse(girlData);
+            ApplyBoyResponse(boyResponse, byeByeBoy);
+        }
 
 
         yield return new WaitForSeconds(1.2f);
@@ -272,9 +305,18 @@ public class DatingSceneControllerHW4 : MonoBehaviour
         // );
         // ApplyBoyResponse(boyResponse, laughBoy);
         // 아래 2줄로 변경
-        BoyResponseData boyResponse = GenerateTemporaryAIResponse(girlData);
-        ApplyBoyResponse(boyResponse, laughBoy);
-
+        // BoyResponseData boyResponse = GenerateTemporaryAIResponse(girlData);
+        // ApplyBoyResponse(boyResponse, laughBoy);
+        //#4-2 아래 if/else문으로 변경 (Python 임시 AI 서버와 연결하기 위함)
+        if (usePythonAIServer)
+        {
+            yield return StartCoroutine(RequestBoyResponseFromServer(girlData, laughBoy));
+        }
+        else
+        {
+            BoyResponseData boyResponse = GenerateTemporaryAIResponse(girlData);
+            ApplyBoyResponse(boyResponse, laughBoy);
+        }
 
         yield return new WaitForSeconds(1.8f);
 
@@ -315,9 +357,18 @@ public class DatingSceneControllerHW4 : MonoBehaviour
         // );
         // ApplyBoyResponse(boyResponse, ohNoBoy);
         // 아래 2줄로 변경
-        BoyResponseData boyResponse = GenerateTemporaryAIResponse(girlData);
-        ApplyBoyResponse(boyResponse, ohNoBoy);
-
+        // BoyResponseData boyResponse = GenerateTemporaryAIResponse(girlData);
+        // ApplyBoyResponse(boyResponse, ohNoBoy);
+        //#4-2 아래 if/else문으로 변경 (Python 임시 AI 서버와 연결하기 위함)
+        if (usePythonAIServer)
+        {
+            yield return StartCoroutine(RequestBoyResponseFromServer(girlData, ohNoBoy));
+        }
+        else
+        {
+            BoyResponseData boyResponse = GenerateTemporaryAIResponse(girlData);
+            ApplyBoyResponse(boyResponse, ohNoBoy);
+        }
 
         yield return new WaitForSeconds(1.8f);
 
@@ -380,6 +431,49 @@ public class DatingSceneControllerHW4 : MonoBehaviour
             "Neutral"
         );
     }
+
+    // #HW4 //#4-2 AI 서버 적용하기
+    IEnumerator RequestBoyResponseFromServer(GirlActionData girlData, AudioClip fallbackVoiceClip)
+    {
+        /*
+        GirlActionData를 JSON으로 변환
+        → Python 서버로 POST
+        → 응답 JSON 수신
+        → BoyResponseData로 변환
+        → ApplyBoyResponse 실행
+        */
+        string json = JsonUtility.ToJson(girlData);
+
+        Debug.Log("[Unity -> Python] " + json);
+
+        UnityWebRequest request = new UnityWebRequest(aiServerUrl, "POST");
+        byte[] bodyRaw = Encoding.UTF8.GetBytes(json);
+
+        request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+        request.downloadHandler = new DownloadHandlerBuffer();
+        request.SetRequestHeader("Content-Type", "application/json");
+
+        yield return request.SendWebRequest();
+
+        if (request.result == UnityWebRequest.Result.Success)
+        {
+            string responseText = request.downloadHandler.text;
+
+            Debug.Log("[Python -> Unity] " + responseText);
+
+            BoyResponseData boyResponse = JsonUtility.FromJson<BoyResponseData>(responseText);
+            ApplyBoyResponse(boyResponse, fallbackVoiceClip);
+        }
+        else
+        {
+            Debug.LogWarning("[AI Server Error] " + request.error);
+            Debug.LogWarning("Falling back to GenerateTemporaryAIResponse().");
+
+            BoyResponseData fallbackResponse = GenerateTemporaryAIResponse(girlData);
+            ApplyBoyResponse(fallbackResponse, fallbackVoiceClip);
+        }
+    }
+
     // #HW4 //#4 나중에 AI서버가 쉽게 동작을 수행하도록 할 수 있도록 함수 추가
     void ApplyBoyResponse(BoyResponseData response, AudioClip voiceClip)
     {
