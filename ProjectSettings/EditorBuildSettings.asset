@@ -12,7 +12,7 @@ EditorBuildSettings:
     path: Assets/01.Scenes/Scene_HW2-2.unity
     guid: c929f61206519b94586b6d4f36b1ef6e
   - enabled: 1
-    path: Assets/01.Scenes/360Scene_Desktop_HW2-3.unity
+    path: Assets/01.Scenes/360Scene_Desktop_HW4.unity
     guid: 8b2425fbec4c0e44c82c28d99c89c3a3
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 289c1b55c9541489481df5cc06664110, type: 3}
