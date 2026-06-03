@@ -6,8 +6,8 @@ public class DebugTextDating : MonoBehaviour
     {
         GUIStyle style = new GUIStyle(GUI.skin.label);
 
-        style.fontSize = 10;
-        style.normal.textColor = Color.black;
+        style.fontSize = 24;
+        style.normal.textColor = Color.green;
 
         GUILayout.BeginArea(new Rect(20, 20, 700, 500));
 
